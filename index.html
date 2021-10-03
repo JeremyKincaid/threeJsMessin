@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+		<script src="js/three.js"></script>
+		<script>
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+            const renderer = new THREE.WebGLRenderer();
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            document.body.appendChild( renderer.domElement );
+
+            // const light = new THREE.AmbientLight( 0x404040 ); // soft white light
+            // scene.add( light );
+            
+            //point light constructor
+            //PointLight( color : Integer, intensity : Float, distance : Number, decay : Float )
+            const pLight = new THREE.PointLight( 0xdf03fc, 1, 0, 1 );
+            pLight.position.set( 0, 5, -5 );
+            scene.add( pLight );
+            const pLight2 = new THREE.PointLight( 0xdf03fc, 1, 0, 1 );
+            pLight2.position.set( 0, -5, -5 );
+            scene.add( pLight2 );
+
+            const sphereSize = 2;
+            const pointLightHelper = new THREE.PointLightHelper( pLight, sphereSize );
+            scene.add( pointLightHelper );
+            const pointLightHelper2 = new THREE.PointLightHelper( pLight2, sphereSize );
+            scene.add( pointLightHelper2 );
+
+
+            const geometry = new THREE.ConeGeometry(5, 5, 4);
+            let matParams = { color: 0xffffff, emmisive: 0xdf03fc, emmisiveIntensity: 10}
+            const material = new THREE.MeshStandardMaterial( matParams );
+            //material.wireframe.set(true);
+            const pyramid0 = new THREE.Mesh( geometry, material );
+            pyramid0.position.set(0, -5, -10);
+
+            const pyramid1 = new THREE.Mesh( geometry, material );
+            pyramid1.position.set(10, -5, -10);
+            const pyramid2 = new THREE.Mesh( geometry, material );
+            pyramid2.position.set(-10, -5, -10);
+            const pyramid3 = new THREE.Mesh( geometry, material );
+            pyramid3.position.set( 5, 0, -10);
+            const pyramid4 = new THREE.Mesh( geometry, material );
+            pyramid4.position.set( -5, 0, -10);
+            const pyramid5 = new THREE.Mesh( geometry, material );
+            pyramid5.position.set( 15, 0, -10);
+            const pyramid6 = new THREE.Mesh( geometry, material );
+            pyramid6.position.set( -15, 0, -10);
+            const pyramid7 = new THREE.Mesh( geometry, material );
+            pyramid7.position.set( 0, 5, -10);
+            const pyramid8 = new THREE.Mesh( geometry, material );
+            pyramid8.position.set( 10, 5, -10);
+            const pyramid9 = new THREE.Mesh( geometry, material );
+            pyramid9.position.set( -10, 5, -10);
+            
+            scene.add( pyramid0 );
+            scene.add( pyramid1 );
+            scene.add( pyramid2 );
+            scene.add( pyramid3 );
+            scene.add( pyramid4 );
+            scene.add( pyramid5 );
+            scene.add( pyramid6 );
+            scene.add( pyramid7 );
+            scene.add( pyramid8 );
+            scene.add( pyramid9 );
+
+            camera.position.z = 5;
+            
+            let moveRight = true;
+
+            function movePointLight() {
+                let xCoord = pLight.position.x;
+
+                if( xCoord <= -30.0){
+                    moveRight = true;
+                } else if( xCoord >= 30.0 ){
+                    moveRight = false;
+                }
+
+                if(moveRight){
+                    pLight.position.x += 0.2;
+                } else {
+                    pLight.position.x -= 0.2;
+                }
+                
+            }
+
+
+            let moveRight2 = false;
+            function movePointLight2() {
+                let xCoord2 = pLight2.position.x;
+
+                if( xCoord2 <= -30.0){
+                    moveRight2 = true;
+                } else if( xCoord2 >= 30.0 ){
+                    moveRight2 = false;
+                }
+
+                if(moveRight2){
+                    pLight2.position.x += 0.2;
+                } else {
+                    pLight2.position.x -= 0.2;
+                }
+                
+            }
+
+            function animate() {
+	            requestAnimationFrame( animate );
+                movePointLight();
+                movePointLight2();
+	            renderer.render( scene, camera );
+            }
+            animate();
+		</script>
+	</body>
+</html>
